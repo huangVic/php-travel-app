@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Site extends CI_Controller {
+class Api extends CI_Controller {
 
 	public function __construct()
 	{
@@ -10,17 +10,6 @@ class Site extends CI_Controller {
 		$this->load->library(array('session','parser','pagination','encrypt'));
 		$this->load->model('app/date_model');
 		
-		$this->load->view('/site/common/header');
-	}
-	public function index()
-	{
-		
-		$date_list = $this->date_model->getDateList();
-		$data['date_list']= $date_list;
-		//print_r($date_list);
-		
-		$this->load->view('/site/index', $data);
-		$this->load->view('/site/common/footer');
 	}
 	
 	
@@ -28,11 +17,14 @@ class Site extends CI_Controller {
 	{
 	
 		$date_list = $this->date_model->getDateList();
-		$data['date_list']= $date_list;
-		//print_r($date_list);
 	
-		$this->load->view('/site/index', $data);
-		$this->load->view('/site/common/footer');
+		header("HTTP/1.1 200 OK");
+		header('Content-Type: application/json');
+		//header('Access-Control-Allow-Origin: http://test-ustvshop.bobitag.com');
+		header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+		header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
+		http_response_code(200);
+		echo json_encode($date_list);
 	}
 }
 
